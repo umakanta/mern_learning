@@ -9,11 +9,12 @@ const registerUser = async (req, res) => {
                 message: "User already exists"
             });
         }
+        // how we can encrypt a password - update security
         const newUser = new userModel(req?.body);
         await newUser.save();
         res.send({
             success: true,
-            message: "registration is success."
+            message: "registration is success. Please login."
         })
     } catch (err) {
         console.log(err);

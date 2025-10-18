@@ -4,7 +4,12 @@ import { useNavigate } from 'react-router-dom'
 const Home = () => {
     const navigate = useNavigate();
     useEffect(()=>{
-        navigate("/login");
+        if(localStorage.getItem("tokenForBMS")){
+            // token is valid
+        }else {
+            navigate("/login");
+        }
+        
     }, [])
   return (
     <div>Home</div>

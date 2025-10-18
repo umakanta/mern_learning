@@ -10,13 +10,15 @@ const createProduct = async (req, res) => {
     } = req.body;
 
     try {
-        const product = await ProductModel.create({
+        const product = new ProductModel({
             product_name,
             product_price,
             isInStock,
             category,
             product_description,
         });
+        await product.save();  // Pre & Post hook configured for save()
+
         res.status(201).json({ message: "Product created", product });
     } catch (err) {
         res.status(400).json({ message: "something went wrong" });

@@ -1,4 +1,5 @@
 const userModel = require("../models/userShema");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
     try {
@@ -36,10 +37,15 @@ const loginUser = async (req, res) => {
             message: "Please enter valid Password"
         });
     }
-
+    const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        process.env.SECRET_KEY,
+        {expiresIn: "1d"}
+    );
     res.send({
         success: true,
-        message: "You are successfully Logged in"
+        message: "You are successfully Logged in",
+        data: token
     });
 };
 

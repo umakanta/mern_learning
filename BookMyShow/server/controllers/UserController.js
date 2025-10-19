@@ -40,7 +40,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
         { userId: user._id, email: user.email },
         process.env.SECRET_KEY,
-        {expiresIn: "1d"}
+        { expiresIn: "1d" }
     );
     res.send({
         success: true,
@@ -49,7 +49,21 @@ const loginUser = async (req, res) => {
     });
 };
 
+const currentUser = async (req, res) => {
+    try {
+        console.log(`Cuser: ${req.body.userId}`);
+        const user = await userModel.findById(req.body.userId);
+        res.send({
+            success: true,
+            message: "User details. Fetched Successfully",
+            data: user
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 module.exports = {
     registerUser,
-    loginUser
-}
+    loginUser,
+    currentUser
+};

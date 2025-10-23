@@ -7,7 +7,8 @@ const validateJWTToken = (req, res, next) => {
         if (decode) {
             req.body = {
                 email: decode?.email,
-                userId: decode?.userId
+                userId: decode?.userId,
+                ...req?.body
             };
 
             next();

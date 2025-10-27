@@ -1,13 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { Layout, Menu, message } from "antd";
 import { GetCurrentUser } from "../api/user";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/userSlice";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import { HomeOutlined, LogoutOutlined, ProfileOutlined } from "@ant-design/icons"
+import { BookOutlined, HomeOutlined, LogoutOutlined, ProfileOutlined } from "@ant-design/icons"
 
 const ProtectedRoute = ({ children }) => {
     const { user } = useSelector((state) => state.user);
@@ -46,15 +46,30 @@ const ProtectedRoute = ({ children }) => {
             icon: <HomeOutlined />
         },
         {
+            key: "roleProfiler",
+            label: (
+                <span
+                    onClick={() => {
+                        if (user?.role === "admin") {
+                            navigate("/admin", { replace: true });
+                        } else if (user?.role === "partner") {
+                            navigate("/partner", { replace: true });
+                        } else {
+                            navigate("/myBookings", { replace: true });
+                        }
+                    }}
+                >
+                    {user?.role === "admin" && "Movie Management"}
+                    {user?.role === "partner" && "Theatre Management"}
+                    {user?.role === "user" && "My Bokings"}
+                </span>
+            ),
+            icon: <BookOutlined />
+        },
+        {
             key: "Profile",
             label: <span onClick={() => {
-                if (user?.role === "admin") {
-                    navigate("/admin");
-                } else if (user?.role === "partner") {
-                    navigate("/partner");
-                } else {
                     navigate("/profile");
-                }
             }}>
                 My Profile</span>,
             icon: <ProfileOutlined />
@@ -89,7 +104,7 @@ const ProtectedRoute = ({ children }) => {
                     textAlign: "center",
                     backgroundColor: "#001529",
                     color: "white",
-                    position: "absolute",
+                    position: "fixed",
                     bottom: 0,
                     width: "100%"
                 }}>

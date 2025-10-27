@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Profile } from './pages/Profile';
-import { Admin } from './pages/Admin';
+import { Admin } from './pages/Admin/Admin';
 import Partner from './pages/Partner';
 
 const App = () => (

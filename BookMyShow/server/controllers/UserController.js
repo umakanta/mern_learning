@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
 const currentUser = async (req, res) => {
     try {
-        console.log(`Cuser: ${req.body.userId}`);
+        console.log(`Current User: ${req.body.userId}`);
         const user = await userModel.findById(req.body.userId);
         res.send({
             success: true,

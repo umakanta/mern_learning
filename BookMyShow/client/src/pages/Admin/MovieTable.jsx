@@ -141,10 +141,6 @@ function MovieTable() {
       {isModalOpen && <MovieForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}
         fetchMovieData={getData}
         selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />}
-      
-       {/* {isDeleteModalOpen && <MovieForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}
-        fetchMovieData={getData}
-        selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />} */}
 
      {isDeleteModalOpen && <DeleteMovieModal isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen}
           fetchMovieData={getData}

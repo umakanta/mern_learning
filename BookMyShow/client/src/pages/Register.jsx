@@ -67,7 +67,7 @@ const Register = () => {
                         >
                             <Radio.Group
                                 name="role"
-                                defaultValue={"user"}
+                                initialValue={"user"}
                                 options={[
                                     { value: "partner", label: 'Yes' },
                                     { value: "user", label: 'No' }

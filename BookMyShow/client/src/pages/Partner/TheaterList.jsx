@@ -96,6 +96,13 @@ const TheaterList = () => {
             >
               <DeleteOutlined />
             </Button>
+            {data.isActive && <Button onClick={() => {
+              console.log("Selected theater for Deletion:");
+              setSelectedTheater(data);
+            }}>
+              + Shows
+            </Button>
+            }
           </div>
         );
       },

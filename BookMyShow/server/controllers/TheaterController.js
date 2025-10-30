@@ -20,7 +20,7 @@ const addTheater = async (req, res, next) => {
 const updateTheater = async (req, res, next) => {
     try {
         const theater = await theaterModel.findByIdAndUpdate(
-            req?.body?.theaterId,
+            req?.body?._id,
             req.body,
             { new: true } // adding this flag will ensure theater object being returned is updated
         );

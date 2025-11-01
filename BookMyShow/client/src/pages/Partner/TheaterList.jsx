@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd'
+import { Button, message, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from '../../redux/loaderSlice';
@@ -6,12 +6,14 @@ import { getAllTheaters, getAllTheatersByOwner } from '../../api/theater';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 import DeleteTheaterModal from './DeleteTheaterModal';
 import TheaterForm from './TheaterForm';
+import ShowModal from './ShowModal';
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isShowModalOpen, setIsShowModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -96,9 +98,12 @@ const TheaterList = () => {
             >
               <DeleteOutlined />
             </Button>
-            {data.isActive && <Button onClick={() => {
-              console.log("Selected theater for Deletion:");
+
+            {
+            data.isActive && <Button onClick={() => {
+              console.log("Selected theater for Add show:", isShowModalOpen);
               setSelectedTheater(data);
+              setIsShowModalOpen(true);
             }}>
               + Shows
             </Button>
@@ -127,6 +132,11 @@ const TheaterList = () => {
       {isDeleteModalOpen && <DeleteTheaterModal
         isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen}
         fetchTheaterData={getData}
+        selectedTheater={selectedTheater} setSelectedTheater={setSelectedTheater}
+      />}
+
+        {isShowModalOpen && <ShowModal
+        isShowModalOpen={isShowModalOpen} setIsShowModalOpen={setIsShowModalOpen}
         selectedTheater={selectedTheater} setSelectedTheater={setSelectedTheater}
       />}
     </div>

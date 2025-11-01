@@ -13,5 +13,5 @@ router.get("/getCurrentUser", validateJWTToken, currentUser);
 
 module.exports = router;
 
-//bms/v1/users/register
+//bms/v1/`users/register
 //bms/v1/users/login

@@ -63,10 +63,24 @@ const deleteMovie = async (req, res, next) => {
         next(error);
     }
 };
-
+const getMovieById = async (req, res, next) => {
+    try {
+        const movieId = req?.params?.id;
+        const movie = await movieModel.findById(movieId);
+        res.send({
+            success: true,
+            message: "The movie has been fetched.",
+            data: movie
+        });
+    } catch (error) {
+        res.status(400);
+        next(error);
+    }
+};
 module.exports = {
     addMovie,
     getAllMovies,
     updateMovie,
     deleteMovie,
+    getMovieById
 };

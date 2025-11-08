@@ -139,7 +139,7 @@ const ShowModal = ({
             title: "Movie",
             dataIndex: "movie",
             render: (text, data) => {
-                return data.movie.movieName;
+                return data.movie.movieName || "-";
             },
         },
         {

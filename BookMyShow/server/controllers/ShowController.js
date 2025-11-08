@@ -1,10 +1,10 @@
-const showModel = require('../models/showSchema');
+const ShowModel = require('../models/showSchema');
 
 // Add Show
 const addShow = async (req, res, next) => {
     try {
         console.log("addShow payload:", req.body);
-        const newShow = new showModel(req?.body);
+        const newShow = new ShowModel(req?.body);
         await newShow.save();
         res.send({
             success: true,
@@ -20,7 +20,7 @@ const addShow = async (req, res, next) => {
 
 const updateShow = async (req, res, next) => {
     try {
-        const show = await showModel.findByIdAndUpdate(
+        const show = await ShowModel.findByIdAndUpdate(
             req?.body?.showId,
             req.body,
             // { new: true } // adding this flag will ensure show object being returned is updated
@@ -39,7 +39,7 @@ const updateShow = async (req, res, next) => {
 const deleteShow = async (req, res, next) => {
     try {
         const showId = req?.params?.showId;
-        const show = await showModel.findByIdAndDelete(showId);
+        const show = await ShowModel.findByIdAndDelete(showId);
         if (!show) {
             res.status(404).json({ message: "Show not found" });
         }
@@ -55,11 +55,22 @@ const deleteShow = async (req, res, next) => {
 
 const getAllShowsByMovie = async (req, res, next) => {
     try { 
-        const allShows = await show.find();
+        const {movie, date } = req.body;
+        const shows = await ShowModel.find({movie, date }).populate("theater");
+        const theaterMap = new Map();
+        shows.forEach((show) => {
+            const theatherId = show.theater._id.toString();
+            if(!theaterMap.has(theatherId)){
+                theaterMap.set(theatherId, { ...show.theater._doc, shows:[] });
+            }
+            theaterMap.get(theatherId).shows.push(show);
+        });
+        const uniqueTheater = Array.from(theaterMap.values());
+
         res.send({
             success: true,
-            message: "All shows fetched successfully.",
-            data: allShows
+            message: "All theater with the show fetched successfully.",
+            data: uniqueTheater
         });
     } catch (error) {
         res.status(400);
@@ -70,7 +81,7 @@ const getAllShowsByMovie = async (req, res, next) => {
 const getAllShowsByTheater = async (req, res, next) => {
     try { 
         const theaterId = req.params.theaterId
-        const allShows = await showModel.find({ theater: theaterId })
+        const allShows = await ShowModel.find({ theater: theaterId })
         .populate("movie")
         .populate("theater");
 

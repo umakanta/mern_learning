@@ -34,6 +34,27 @@ const createProduct = async (req, res) => {
   }
 };
 
+const contacts = []
+const createContact = async (req, res) => {
+  try {
+    const name = req.body.name
+    const phone = req.body.phone
+    if (!name || !phone) {
+      res.status(400).json({ message: "Name and phone are required." })
+    }
+    contacts.push({ name: name, phone: phone })
+    res.status(200).json({ message: { name: name, phone: phone } })
+
+  } catch (error) {
+    res.status(400).json({ message: "Name and phone are required." })
+  }
+}
+
+app.post("/contacts", createContact);
+app.get("/contcts", (req, res) => {
+ res.status(200).json(contacts)
+})
+
  //http://localhost:3000/createProduct
 app.post("/createProduct", createProduct);
 
